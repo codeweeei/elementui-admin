@@ -28,7 +28,15 @@ export default {
   },
   methods: {
     savaArticle() {
-      console.log(this.article);
+      // console.log(this.article);
+      //将文章作为请求体传入新增文章的接口存在数据库里
+      this.$http.post("articles",this.article).then(res => {
+        this.$message({
+          message: '成功创建一则文章',
+          type: 'success'
+        })
+        this.$router.push("/articles/index")
+      })
     }
   }
 }
