@@ -11,6 +11,7 @@ mongoose.connect("mongodb://localhost:27017/element-admin", {
   useCreateIndex: true,
   useFindAndModify: true,
   useNewUrlParser: true,
+  seUnifiedTopology: true
 })
 //创建文章模型数据库
 const Article = mongoose.model(
@@ -27,6 +28,14 @@ app.post("/api/articles", async (req, res) => {
   const article = await Article.create(req.body)
   //将创建的文章发送回客户端用于渲染显示
   res.send(article)
+})
+
+//显示创建好的文章列表接口
+app.get("/api/articles", async (req, res) => {
+  //查询文章模型数据库里的文章，然后发送给前端渲染
+  const articles = await Article.find()
+  // console.log(articles)
+  res.send(articles)
 })
 
 app.get("/", async (req, res) => {
