@@ -42,10 +42,20 @@ app.delete("/api/articles/:id", async (req, res) => {
   await Article.findByIdAndDelete(req.params.id)
   res.send({
     status: true,
-    message: "删除文章成功~"
+    message: "删除文章成功~",
   })
 })
-
+//显示文章详情页接口
+app.get("/api/articles/:id", async (req, res) => {
+  const article = await Article.findById(req.params.id)
+  res.send(article)
+})
+//修改文章的接口(覆盖性修改)
+app.put("/api/articles/:id", async (req,res) => {
+  //修改并且更新，将客户端提交过来的对象进行覆盖
+  const article = await Article.findByIdAndUpdate(req.params.id,req.body)
+  res.send(article)
+})
 app.get("/", async (req, res) => {
   res.send("index")
 })

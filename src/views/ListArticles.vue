@@ -16,6 +16,7 @@
         </template>
       </el-table-column>
     </el-table>
+    
   </div>
 </template>
 
@@ -24,7 +25,7 @@ export default {
   name:'ListArticles',
   data() {
     return {
-      articles:[]
+      articles:[],
     }
   },
   methods: {
@@ -35,19 +36,22 @@ export default {
       })
     },
     edit(id){
-
+      this.$router.push(`/articles/${id}/edit`)
     },
     remove(id){
-      //通过文章_id来删除对应文章
-      this.$http.delete(`articles/${id}`).then(res =>{
-        //删除之后提示
-        this.$message({
-          message: res.data.message,
-          type: 'success'
+      let isRemove = confirm("您确定要删除这篇文章吗？")
+      if(isRemove == true){
+        //通过文章_id来删除对应文章
+        this.$http.delete(`articles/${id}`).then(res =>{
+          //删除之后提示
+          this.$message({
+            message: res.data.message,
+            type: 'success'
+          })
+          this.getArticle()
         })
-        this.getArticle()
-      })
-    }
+      }
+    },
   },
   created() {
     this.getArticle()
